@@ -30,8 +30,8 @@ const Signup = () => {
       alert("Signup successful! Redirecting to login...");
       router.push("/login");
     } catch (error) {
-      console.error("Signup error:", error.response?.dataerror.message);
-      alert("Signup failed: " + (error.response?.data?.message, 'Try again'));
+      console.error("Signup error:", error.response?.dataerror.message ||'Something went wrong');
+      alert("Signup failed: " + (error.response?.data?.message||'Something went wrong', 'Try again'));
     }
   };
 

@@ -37,9 +37,9 @@ const courses = [
 
 export default function PopularCourses() {
   return (
-    <section className="py-16 bg-gray-50">
+    <section className="py-16 bg-gray-50 dark:bg-[#0B1120]">
       <div className="max-w-7xl mx-auto px-6">
-        <h2 className="text-4xl font-bold text-center text-gray-900 mb-12">
+        <h2 className="text-4xl font-bold text-center text-gray-900 dark:text-gray-100 mb-12 pb-8">
           Popular Courses
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
@@ -53,7 +53,7 @@ export default function PopularCourses() {
                 initial={{ opacity: 0, y: 50 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: idx * 0.2 }}
-                className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition"
+                className="bg-white dark:bg-[#0B1120] rounded-xl shadow-md overflow-hidden hover:shadow-lg transition"
               >
                 <div className="relative w-full h-52">
                   <Image
@@ -64,22 +64,22 @@ export default function PopularCourses() {
                   />
                 </div>
                 <div className="p-6">
-                  <h3 className="text-xl font-semibold text-gray-800">
+                  <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-100">
                     {c.title}
                   </h3>
-                  <p className="text-gray-600 mt-2">
+                  <p className="text-gray-600  dark:text-gray-200 mt-2">
                     Instructor: {c.instructor}
                   </p>
                   <div className="flex items-center justify-between mt-4">
-                    <span className="text-yellow-500 font-medium text-lg">
+                    <span className="text-yellow-500 dark:text-white font-medium text-lg">
                       ⭐ {c.rating}
                     </span>
-                    <span className="text-gray-500 text-sm">
+                    <span className="text-gray-500 dark:text-gray-300 text-sm">
                       {c.students} Students
                     </span>
                   </div>
                   <Link href={`/course/${slug}`}>
-                    <button className="mt-4 w-full bg-yellow-500 text-white py-2 rounded-lg hover:bg-yellow-700 transition">
+                    <button className="mt-4 w-full bg-yellow-500 dark:bg-white text-white dark:text-gray-800 py-2 rounded-lg hover:bg-yellow-700 dark:hover:bg-blue-950 dark:hover:text-white  transition">
                       Enroll Now
                     </button>
                   </Link>

@@ -72,7 +72,7 @@ export default function BlogSection() {
             {blogs.map((blog) => (
               <div
                 key={blog.id}
-                className="bg-white rounded-lg shadow-md overflow-hidden transition-transform transform hover:scale-105"
+                className="bg-white dark:bg-[#0B1120] rounded-lg shadow-md overflow-hidden transition-transform transform hover:scale-105"
               >
                 <div className="relative w-full h-56">
                   <Image
@@ -84,15 +84,15 @@ export default function BlogSection() {
                   />
                 </div>
                 <div className="p-6">
-                  <h3 className="text-lg md:text-xl font-semibold text-gray-800">
+                  <h3 className="text-lg md:text-xl font-semibold text-gray-800 dark:text-gray-100">
                     {blog.title}
                   </h3>
-                  <p className="text-gray-600 mt-3 text-sm md:text-base">
+                  <p className="text-gray-600 dark:text-gray-200 mt-3 text-sm md:text-base">
                     {blog.description}
                   </p>
                   <Link
                     href={blog.link}
-                    className="mt-4 inline-block bg-yellow-500 text-white px-4 py-2 rounded-md hover:bg-yellow-600 transition"
+                    className="mt-4 inline-block bg-yellow-500 dark:bg-white text-white dark:text-gray-800 px-4 py-2 rounded-md hover:bg-yellow-600 dark:hover:bg-gray-300 dark:hover:text-blue-950 transition"
                   >
                     Read More →
                   </Link>
