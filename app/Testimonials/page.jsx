@@ -33,9 +33,9 @@ const testimonials = [
 
 const TestimonialSection = () => {
   return (
-    <div className="py-16 bg-gray-100 mt-16">
+    <div className="py-16 bg-gray-100 dark:bg-gray-900 ">
       <motion.h2
-        className="text-3xl sm:text-4xl text-gray-800 font-bold text-center mb-10"
+        className="text-3xl sm:text-4xl text-gray-800 dark:text-gray-200 font-bold text-center mb-10"
         initial={{ opacity: 0, y: -30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
@@ -60,7 +60,7 @@ const TestimonialSection = () => {
         {testimonials.map((test, index) => (
           <SwiperSlide key={index} className="flex justify-center">
             <motion.div
-              className="bg-white p-6 text-center rounded-lg shadow-lg max-w-md"
+              className="bg-white dark:bg-gray-800 p-6 text-center rounded-lg shadow-lg max-w-md"
               whileHover={{ scale: 1.05 }}
             >
               <div className="relative w-20 h-20 sm:w-24 sm:h-24 mx-auto mb-4 rounded-full overflow-hidden">
@@ -71,10 +71,10 @@ const TestimonialSection = () => {
                   className="object-cover"
                 />
               </div>
-              <p className="text-gray-700 italic text-sm sm:text-base">
+              <p className="text-gray-700 dark:text-gray-300 italic text-sm sm:text-base">
                 {test.review}
               </p>
-              <h3 className="mt-4 text-lg font-semibold text-gray-900">
+              <h3 className="mt-4 text-lg font-semibold text-gray-900 dark:text-gray-100">
                 - {test.name}
               </h3>
             </motion.div>

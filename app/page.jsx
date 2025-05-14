@@ -16,15 +16,24 @@ const HeroSection = () => {
   return (
     <div>
       <Header />
+      {/* <Image
+                src={Enatlogo}
+                alt="Logo"
+                width={40}
+                height={40}
+                className="rounded-full shadow-lg transition-transform duration-300"
+                onMouseOver={(e) => (e.currentTarget.style.transform = "scale(1.1)")}
+                style={{ objectFit: "cover" }}
+              /> */}
       <div
-        className=" min-h-screen flex flex-col items-center justify-center bg-cover bg-center bg-fixed"
+        className=" min-h-screen flex flex-col items-center justify-center bg-cover bg-center bg-fixed "
         style={{ backgroundImage: `url('/bgn.jpg')` }}
-      >
+      >  
         <motion.h2
           initial={{ opacity: 0, y: -50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1 }}
-          className="text-4xl sm:text-5xl md:text-6xl font-bold text-white text-center px-6 sm:px-12"
+          className="text-4xl sm:text-5xl md:text-6xl font-bold text-white  text-center px-6 sm:px-12"
         >
           Learn, Anywhere
         </motion.h2>
@@ -37,7 +46,7 @@ const HeroSection = () => {
           speed={50}
           style={{ fontSize: "2em", display: "inline-block" }}
           repeat={Infinity}
-          className="text-white"
+          className="text-white text-2xl sm:text-3xl md:text-4xl font-semibold mt-4 text-center"
         />
 
         <motion.div
@@ -47,7 +56,7 @@ const HeroSection = () => {
         >
           <Link
             href="/Signup"
-            className="mt-6 inline-block bg-yellow-500 hover:bg-yellow-600 text-black font-semibold px-6 py-3 rounded-md shadow-md transition duration-300"
+            className="mt-6 inline-block bg-yellow-500 dark:bg-gray-800 hover:bg-yellow-600 dark:hover:bg-gray-600 text-black dark:text-white font-semibold px-6 py-3 rounded-md shadow-md transition duration-300"
           >
             Get Started
           </Link>
