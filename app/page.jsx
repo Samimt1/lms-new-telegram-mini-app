@@ -4,11 +4,11 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
 import bgImage from "@/public/bgn.jpg"; // Moved to /public
-import Header from "./Navbar/page"
-import FeaturesSection from "./FeatureSection/page"
+import Header from "./Navbar/page";
+import FeaturesSection from "./FeatureSection/page";
 import PopularCourses from "./PopularCourses/page";
-import BlogSection from "./Blogs/page"
-import TestimonialSection from "./Testimonials/page"
+import BlogSection from "./Blogs/page";
+import TestimonialSection from "./Testimonials/page";
 import Footer from "./Footer/page";
 import { TypeAnimation } from "react-type-animation";
 
@@ -28,7 +28,7 @@ const HeroSection = () => {
       <div
         className=" min-h-screen flex flex-col items-center justify-center bg-cover bg-center bg-fixed "
         style={{ backgroundImage: `url('/bgn.jpg')` }}
-      >  
+      >
         <motion.h2
           initial={{ opacity: 0, y: -50 }}
           animate={{ opacity: 1, y: 0 }}
@@ -38,9 +38,12 @@ const HeroSection = () => {
           Learn, Anywhere
         </motion.h2>
 
-       
         <TypeAnimation
-          sequence={["   Upgrade Your Skills with Our Online Courses.", 2000, "", 500,
+          sequence={[
+            "   Upgrade Your Skills with Our Online Courses.",
+            2000,
+            "",
+            500,
           ]}
           wrapper="p"
           speed={50}
@@ -55,7 +58,7 @@ const HeroSection = () => {
           transition={{ delay: 1, duration: 0.5 }}
         >
           <Link
-            href="/Signup"
+            href="/login"
             className="mt-6 inline-block bg-yellow-500 dark:bg-gray-800 hover:bg-yellow-600 dark:hover:bg-gray-600 text-black dark:text-white font-semibold px-6 py-3 rounded-md shadow-md transition duration-300"
           >
             Get Started
