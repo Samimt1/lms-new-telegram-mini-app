@@ -2,14 +2,13 @@
 
 import { useState } from "react";
 import { Search, Filter, Star } from "lucide-react";
-import Link from "next/link";
+import Image from "next/image";
 
 export default function Dashboard() {
   const [searchQuery, setSearchQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState("all");
   const [showFavorites, setShowFavorites] = useState(false);
 
-  // Sample course data with categories
   const [courses, setCourses] = useState([
     {
       id: 1,
@@ -20,6 +19,7 @@ export default function Dashboard() {
       category: "Computer Science",
       instructor: "Dr. Smith",
       enrolledDate: "2023-05-01",
+      image: "/blog1.jpg",
     },
     {
       id: 2,
@@ -30,6 +30,7 @@ export default function Dashboard() {
       category: "IT",
       instructor: "Prof. Johnson",
       enrolledDate: "2023-05-10",
+      image: "/blog2.jpg",
     },
     {
       id: 3,
@@ -40,6 +41,7 @@ export default function Dashboard() {
       category: "Design",
       instructor: "Ms. Williams",
       enrolledDate: "2023-05-15",
+      image: "/blog3.jpg",
     },
     {
       id: 4,
@@ -50,6 +52,20 @@ export default function Dashboard() {
       category: "Computer Science",
       instructor: "Dr. Brown",
       enrolledDate: "2023-05-05",
+      image: "/dig.jpg",
+    },
+    {
+      id: 5,
+      title: "Full-Stack Web Development",
+      progress: 20,
+      isFavorite: true,
+      isCompleted: false,
+      category: "Full-Stack Web Development",
+      instructor: "John Doe",
+      enrolledDate: "2023-05-20",
+      image: "/ai.jpg",
+      rating: 4.8,
+      students: "12,000",
     },
   ]);
 
@@ -165,61 +181,80 @@ export default function Dashboard() {
             {filteredCourses.map((course) => (
               <div
                 key={course.id}
-                className="border rounded-lg p-4 hover:shadow-md transition-shadow"
+                className="border rounded-lg overflow-hidden hover:shadow-md transition-shadow"
               >
-                <div className="flex justify-between items-start">
-                  <div>
-                    <h4 className="font-medium">{course.title}</h4>
-                    <p className="text-sm text-muted-foreground">
-                      {course.instructor}
-                    </p>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="px-2 py-1 text-xs rounded-full bg-secondary text-secondary-foreground">
-                      {course.category}
-                    </span>
-                    <button
-                      onClick={() => toggleFavorite(course.id)}
-                      className="text-muted-foreground hover:text-yellow-500 transition-colors"
-                    >
-                      <Star
-                        className={`h-4 w-4 ${
-                          course.isFavorite
-                            ? "fill-yellow-500 text-yellow-500"
-                            : ""
-                        }`}
-                      />
-                    </button>
-                  </div>
-                </div>
-
-                <div className="mt-4">
-                  <div className="flex justify-between text-sm mb-1">
-                    <span>Progress: {course.progress}%</span>
-                    <span>
-                      {course.isCompleted ? "Completed" : "In Progress"}
-                    </span>
-                  </div>
-                  <div className="w-full bg-gray-200 rounded-full h-2">
-                    <div
-                      className={`h-2 rounded-full ${
-                        course.isCompleted ? "bg-green-500" : "bg-primary"
-                      }`}
-                      style={{ width: `${course.progress}%` }}
-                    ></div>
-                  </div>
-                </div>
-
-                <div className="mt-4 flex justify-between text-sm text-muted-foreground">
-                  <span>
-                    Enrolled:{" "}
-                    {new Date(course.enrolledDate).toLocaleDateString()}
-                  </span>
-                  {course.isFavorite && (
-                    <span className="text-yellow-500 flex items-center gap-1">
-                      <Star className="h-3 w-3" /> Favorite
-                    </span>
+                {/* Course Image */}
+                <div className="relative h-48 w-full bg-gray-100">
+                  {course.image ? (
+                    <Image
+                      src={course.image}
+                      alt={course.title}
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    />
+                  ) : (
+                    <div className="flex items-center justify-center h-full text-gray-500">
+                      No image available
+                    </div>
                   )}
+                </div>
+
+                <div className="p-4">
+                  <div className="flex justify-between items-start">
+                    <div>
+                      <h4 className="font-medium">{course.title}</h4>
+                      <p className="text-sm text-muted-foreground">
+                        {course.instructor}
+                      </p>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="px-2 py-1 text-xs rounded-full bg-secondary text-secondary-foreground">
+                        {course.category}
+                      </span>
+                      <button
+                        onClick={() => toggleFavorite(course.id)}
+                        className="text-muted-foreground hover:text-yellow-500 transition-colors"
+                      >
+                        <Star
+                          className={`h-4 w-4 ${
+                            course.isFavorite
+                              ? "fill-yellow-500 text-yellow-500"
+                              : ""
+                          }`}
+                        />
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="mt-4">
+                    <div className="flex justify-between text-sm mb-1">
+                      <span>Progress: {course.progress}%</span>
+                      <span>
+                        {course.isCompleted ? "Completed" : "In Progress"}
+                      </span>
+                    </div>
+                    <div className="w-full bg-gray-200 rounded-full h-2">
+                      <div
+                        className={`h-2 rounded-full ${
+                          course.isCompleted ? "bg-green-500" : "bg-primary"
+                        }`}
+                        style={{ width: `${course.progress}%` }}
+                      ></div>
+                    </div>
+                  </div>
+
+                  <div className="mt-4 flex justify-between text-sm text-muted-foreground">
+                    <span>
+                      Enrolled:{" "}
+                      {new Date(course.enrolledDate).toLocaleDateString()}
+                    </span>
+                    {course.isFavorite && (
+                      <span className="text-yellow-500 flex items-center gap-1">
+                        <Star className="h-3 w-3" /> Favorite
+                      </span>
+                    )}
+                  </div>
                 </div>
               </div>
             ))}

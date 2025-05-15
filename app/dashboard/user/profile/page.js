@@ -1,17 +1,38 @@
 "use client";
-import { useState } from "react";
+import { useState, useRef } from "react";
+import Image from "next/image";
 
 export default function Profile() {
   const [profile, setProfile] = useState({
     name: "John Student",
     email: "john.student@example.com",
     bio: "Computer Science student",
+    image: "/default-profile.jpg", // Default profile image path
   });
   const [isEditing, setIsEditing] = useState(false);
+  const fileInputRef = useRef(null);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setProfile((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setProfile((prev) => ({
+          ...prev,
+          image: reader.result, // This will be a data URL
+        }));
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const triggerFileInput = () => {
+    fileInputRef.current.click();
   };
 
   return (
@@ -29,6 +50,37 @@ export default function Profile() {
       <div className="bg-white p-6 rounded-lg shadow">
         {isEditing ? (
           <form className="space-y-4">
+            <div className="flex flex-col items-center">
+              <div className="relative w-24 h-24 mb-4">
+                {profile.image ? (
+                  <Image
+                    src={profile.image}
+                    alt="Profile"
+                    fill
+                    className="rounded-full object-cover"
+                  />
+                ) : (
+                  <div className="w-full h-full rounded-full bg-gray-300 flex items-center justify-center text-2xl font-bold text-gray-600">
+                    {profile.name.charAt(0)}
+                  </div>
+                )}
+              </div>
+              <input
+                type="file"
+                ref={fileInputRef}
+                onChange={handleImageChange}
+                accept="image/*"
+                className="hidden"
+              />
+              <button
+                type="button"
+                onClick={triggerFileInput}
+                className="px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300"
+              >
+                Change Photo
+              </button>
+            </div>
+
             <div>
               <label className="block text-gray-700 mb-1">Name</label>
               <input
@@ -69,8 +121,19 @@ export default function Profile() {
         ) : (
           <div className="space-y-4">
             <div className="flex items-center space-x-4">
-              <div className="w-20 h-20 rounded-full bg-gray-300 flex items-center justify-center text-2xl font-bold text-gray-600">
-                {profile.name.charAt(0)}
+              <div className="relative w-20 h-20">
+                {profile.image ? (
+                  <Image
+                    src={profile.image}
+                    alt="Profile"
+                    fill
+                    className="rounded-full object-cover"
+                  />
+                ) : (
+                  <div className="w-full h-full rounded-full bg-gray-300 flex items-center justify-center text-2xl font-bold text-gray-600">
+                    {profile.name.charAt(0)}
+                  </div>
+                )}
               </div>
               <div>
                 <h3 className="text-xl font-semibold">{profile.name}</h3>

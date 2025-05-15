@@ -14,21 +14,26 @@ const geistMono = Geist_Mono({
 
 export const metadata = {
   title: "EnatAcademy",
-  description: "Learning managment system telegram web app",
- 
+  description: "Learning management system telegram web app",
   keywords: "learning, management, system, telegram, web app",
 };
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en " suppressHydrationWarning>
-       <head>
-    <link rel="icon" href="/public/enatlogo.ico" />
-  </head>
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <link rel="icon" href="/enatlogo.ico" />{" "}
+        {/* Removed /public from path */}
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
           {children}
         </ThemeProvider>
       </body>

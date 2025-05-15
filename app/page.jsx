@@ -2,8 +2,6 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import Image from "next/image";
-import bgImage from "@/public/bgn.jpg"; // Moved to /public
 import Header from "./Navbar/page";
 import FeaturesSection from "./FeatureSection/page";
 import PopularCourses from "./PopularCourses/page";
@@ -14,70 +12,92 @@ import { TypeAnimation } from "react-type-animation";
 
 const HeroSection = () => {
   return (
-    <div>
+    <div className="dark:bg-gray-900 transition-colors duration-300">
       <Header />
-      {/* <Image
-                src={Enatlogo}
-                alt="Logo"
-                width={40}
-                height={40}
-                className="rounded-full shadow-lg transition-transform duration-300"
-                onMouseOver={(e) => (e.currentTarget.style.transform = "scale(1.1)")}
-                style={{ objectFit: "cover" }}
-              /> */}
+
+      {/* Hero Section */}
       <div
-        className=" min-h-screen flex flex-col items-center justify-center bg-cover bg-center bg-fixed "
+        className="relative min-h-screen flex flex-col items-center justify-center bg-cover bg-center bg-fixed"
         style={{ backgroundImage: `url('/bgn.jpg')` }}
       >
-        <motion.h2
-          initial={{ opacity: 0, y: -50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1 }}
-          className="text-4xl sm:text-5xl md:text-6xl font-bold text-white  text-center px-6 sm:px-12"
-        >
-          Learn, Anywhere
-        </motion.h2>
+        {/* Dark overlay for better text visibility */}
+        <div className="absolute inset-0 bg-black/40 dark:bg-black/60 z-0"></div>
 
-        <TypeAnimation
-          sequence={[
-            "   Upgrade Your Skills with Our Online Courses.",
-            2000,
-            "",
-            500,
-          ]}
-          wrapper="p"
-          speed={50}
-          style={{ fontSize: "2em", display: "inline-block" }}
-          repeat={Infinity}
-          className="text-white text-2xl sm:text-3xl md:text-4xl font-semibold mt-4 text-center"
-        />
-
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 1, duration: 0.5 }}
-        >
-          <Link
-            href="/login"
-            className="mt-6 inline-block bg-yellow-500 dark:bg-gray-800 hover:bg-yellow-600 dark:hover:bg-gray-600 text-black dark:text-white font-semibold px-6 py-3 rounded-md shadow-md transition duration-300"
+        <div className="relative z-10 text-center px-4 sm:px-6">
+          <motion.h2
+            initial={{ opacity: 0, y: -50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1 }}
+            className="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-4"
           >
-            Get Started
-          </Link>
-        </motion.div>
+            Learn, Anywhere
+          </motion.h2>
+
+          <TypeAnimation
+            sequence={[
+              "Upgrade Your Skills with Our Online Courses.",
+              2000,
+              "Learn at Your Own Pace.",
+              2000,
+              "Expert-Led Courses.",
+              2000,
+            ]}
+            wrapper="p"
+            speed={50}
+            style={{ fontSize: "2em", display: "inline-block" }}
+            repeat={Infinity}
+            className="text-white text-xl sm:text-2xl md:text-3xl font-semibold mb-8"
+          />
+
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 1, duration: 0.5 }}
+            className="flex flex-col sm:flex-row gap-4 justify-center"
+          >
+            <Link
+              href="/login"
+              className="inline-block bg-yellow-500 hover:bg-yellow-600 text-black font-semibold px-6 py-3 rounded-md shadow-md transition duration-300"
+            >
+              Get Started
+            </Link>
+          </motion.div>
+        </div>
       </div>
-      <section id="features" className="min-h-screen">
+
+      {/* Sections with dark mode support */}
+      <section
+        id="features"
+        className="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-300"
+      >
         <FeaturesSection />
       </section>
-      <section id="courses" className="min-h-screen">
+
+      <section
+        id="courses"
+        className="min-h-screen bg-gray-50 dark:bg-gray-800 transition-colors duration-300"
+      >
         <PopularCourses />
       </section>
-      <section id="blogs" className="min-h-screen">
+
+      <section
+        id="blogs"
+        className="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-300"
+      >
         <BlogSection />
       </section>
-      <section id="testimonials" className="min-h-screen">
+
+      <section
+        id="testimonials"
+        className="min-h-screen bg-gray-50 dark:bg-gray-800 transition-colors duration-300"
+      >
         <TestimonialSection />
       </section>
-      <section id="contact">
+
+      <section
+        id="contact"
+        className="bg-white dark:bg-gray-900 transition-colors duration-300"
+      >
         <Footer />
       </section>
     </div>
