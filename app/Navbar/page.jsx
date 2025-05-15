@@ -24,7 +24,7 @@ const Header = () => {
         {/* <Image
           src={Enatlogo}
           alt="Logo"
-          width={40}
+          width={40} 
           height={40}
           className="rounded-full shadow-lg transition-transform duration-300"
           onMouseOver={(e) => (e.currentTarget.style.transform = "scale(1.1)")}
