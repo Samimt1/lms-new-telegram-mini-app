@@ -27,7 +27,9 @@ const Header = () => {
     <header className="fixed w-full px-2 sm:px-10 py-4 flex justify-between items-center bg-transparent z-20">
       {/* Logo */}
       <h1 className="text-2xl sm:text-3xl font-bold text-yellow-400 drop-shadow-lg mr-12">
-        LMS
+
+        EnatAcademy
+       
       </h1>
 
       {/* Hamburger Icon */}
