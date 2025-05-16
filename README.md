@@ -2,6 +2,8 @@
 
 
 ![Admin pagePreview](https://github.com/abrsh21son/lms-new-telegram-mini-app/blob/main/Screenshot%20(381).png?raw=true)
+![Logo](xxx)
+
 
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
