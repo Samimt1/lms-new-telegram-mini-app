@@ -1,5 +1,6 @@
 
 ![hpme page preview](https://github.com/Samimt1/lms-new-telegram-mini-app/blob/main/home.png?raw=true)
+![hpme page preview](https://github.com/Samimt1/lms-new-telegram-mini-app/blob/main/home2.png?raw=true)
 
 
 ![Admin pagePreview](https://github.com/abrsh21son/lms-new-telegram-mini-app/blob/main/Screenshot%20(381).png?raw=true)
