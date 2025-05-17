@@ -1,16 +1,27 @@
 "use client";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
+import { Edit, Save, X, Upload, User } from "lucide-react";
+import { useTheme } from "next-themes";
 
 export default function Profile() {
+  const { theme } = useTheme();
+  const [mounted, setMounted] = useState(false);
   const [profile, setProfile] = useState({
     name: "John Student",
     email: "john.student@example.com",
-    bio: "Computer Science student",
-    image: "/default-profile.jpg", // Default profile image path
+    bio: "Computer Science student passionate about web development and AI technologies.",
+    image: "/ai.jpg",
+    joinedDate: "2023-05-15",
+    coursesCompleted: 8,
+    currentCourses: 3,
   });
   const [isEditing, setIsEditing] = useState(false);
   const fileInputRef = useRef(null);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -24,7 +35,7 @@ export default function Profile() {
       reader.onloadend = () => {
         setProfile((prev) => ({
           ...prev,
-          image: reader.result, // This will be a data URL
+          image: reader.result,
         }));
       };
       reader.readAsDataURL(file);
@@ -35,32 +46,61 @@ export default function Profile() {
     fileInputRef.current.click();
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setIsEditing(false);
+    // Here you would typically send the updated profile to your backend
+    console.log("Profile updated:", profile);
+  };
+
   return (
-    <div className="space-y-6">
+    <div className="space-y-8 p-4 md:p-6">
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold text-gray-800">My Profile</h1>
+        <h1 className="text-2xl md:text-3xl font-bold dark:text-white flex items-center gap-2">
+          <User className="h-8 w-8 text-primary" />
+          My Profile
+        </h1>
         <button
           onClick={() => setIsEditing(!isEditing)}
-          className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+          className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${
+            isEditing
+              ? "bg-red-500 hover:bg-red-600 text-white"
+              : "bg-primary hover:bg-primary/90 text-primary-foreground"
+          }`}
         >
-          {isEditing ? "Cancel" : "Edit Profile"}
+          {isEditing ? (
+            <>
+              <X className="h-5 w-5" />
+              Cancel
+            </>
+          ) : (
+            <>
+              <Edit className="h-5 w-5" />
+              Edit Profile
+            </>
+          )}
         </button>
       </div>
 
-      <div className="bg-white p-6 rounded-lg shadow">
+      <div
+        className={`bg-background p-6 rounded-xl shadow-lg ${
+          theme === "dark" ? "border-gray-700" : "border-gray-200"
+        } border`}
+      >
         {isEditing ? (
-          <form className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-6">
             <div className="flex flex-col items-center">
-              <div className="relative w-24 h-24 mb-4">
+              <div className="relative w-32 h-32 mb-4">
                 {profile.image ? (
                   <Image
                     src={profile.image}
                     alt="Profile"
                     fill
-                    className="rounded-full object-cover"
+                    className="rounded-full object-cover border-4 border-primary/20"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   />
                 ) : (
-                  <div className="w-full h-full rounded-full bg-gray-300 flex items-center justify-center text-2xl font-bold text-gray-600">
+                  <div className="w-full h-full rounded-full bg-gray-300 dark:bg-gray-700 flex items-center justify-center text-4xl font-bold text-gray-600 dark:text-gray-300">
                     {profile.name.charAt(0)}
                   </div>
                 )}
@@ -75,74 +115,121 @@ export default function Profile() {
               <button
                 type="button"
                 onClick={triggerFileInput}
-                className="px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300"
+                className="flex items-center gap-2 px-4 py-2 bg-secondary hover:bg-secondary/80 text-secondary-foreground rounded-lg"
               >
+                <Upload className="h-5 w-5" />
                 Change Photo
               </button>
             </div>
 
-            <div>
-              <label className="block text-gray-700 mb-1">Name</label>
-              <input
-                name="name"
-                value={profile.name}
-                onChange={handleChange}
-                className="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  Full Name
+                </label>
+                <input
+                  name="name"
+                  value={profile.name}
+                  onChange={handleChange}
+                  className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary dark:bg-gray-800 dark:border-gray-700 dark:text-white"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  Email
+                </label>
+                <input
+                  name="email"
+                  type="email"
+                  value={profile.email}
+                  onChange={handleChange}
+                  className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary dark:bg-gray-800 dark:border-gray-700 dark:text-white"
+                  required
+                />
+              </div>
             </div>
+
             <div>
-              <label className="block text-gray-700 mb-1">Email</label>
-              <input
-                name="email"
-                type="email"
-                value={profile.email}
-                onChange={handleChange}
-                className="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
-            <div>
-              <label className="block text-gray-700 mb-1">Bio</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                Bio
+              </label>
               <textarea
                 name="bio"
                 value={profile.bio}
                 onChange={handleChange}
                 rows="4"
-                className="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary dark:bg-gray-800 dark:border-gray-700 dark:text-white"
               ></textarea>
             </div>
+
             <button
-              type="button"
-              onClick={() => setIsEditing(false)}
-              className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+              type="submit"
+              className="flex items-center justify-center gap-2 w-full md:w-auto px-6 py-3 bg-primary hover:bg-primary/90 text-primary-foreground rounded-lg font-medium"
             >
+              <Save className="h-5 w-5" />
               Save Changes
             </button>
           </form>
         ) : (
-          <div className="space-y-4">
-            <div className="flex items-center space-x-4">
-              <div className="relative w-20 h-20">
+          <div className="space-y-8">
+            <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
+              <div className="relative w-32 h-32 shrink-0">
                 {profile.image ? (
                   <Image
                     src={profile.image}
                     alt="Profile"
                     fill
-                    className="rounded-full object-cover"
+                    className="rounded-full object-cover border-4 border-primary/20"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   />
                 ) : (
-                  <div className="w-full h-full rounded-full bg-gray-300 flex items-center justify-center text-2xl font-bold text-gray-600">
+                  <div className="w-full h-full rounded-full bg-gray-300 dark:bg-gray-700 flex items-center justify-center text-4xl font-bold text-gray-600 dark:text-gray-300">
                     {profile.name.charAt(0)}
                   </div>
                 )}
               </div>
-              <div>
-                <h3 className="text-xl font-semibold">{profile.name}</h3>
-                <p className="text-gray-600">{profile.email}</p>
+              <div className="text-center md:text-left">
+                <h3 className="text-2xl font-bold dark:text-white">
+                  {profile.name}
+                </h3>
+                <p className="text-gray-600 dark:text-gray-400">
+                  {profile.email}
+                </p>
+                <p className="mt-2 text-gray-700 dark:text-gray-300">
+                  {profile.bio}
+                </p>
               </div>
             </div>
-            <div>
-              <h4 className="text-sm font-medium text-gray-500">Bio</h4>
-              <p className="text-gray-800">{profile.bio}</p>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
+              <div className="bg-secondary/30 p-4 rounded-lg">
+                <h4 className="text-sm font-medium text-gray-500 dark:text-gray-400">
+                  Member Since
+                </h4>
+                <p className="text-lg font-semibold dark:text-white">
+                  {new Date(profile.joinedDate).toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "long",
+                  })}
+                </p>
+              </div>
+              <div className="bg-secondary/30 p-4 rounded-lg">
+                <h4 className="text-sm font-medium text-gray-500 dark:text-gray-400">
+                  Courses Completed
+                </h4>
+                <p className="text-lg font-semibold dark:text-white">
+                  {profile.coursesCompleted}
+                </p>
+              </div>
+              <div className="bg-secondary/30 p-4 rounded-lg">
+                <h4 className="text-sm font-medium text-gray-500 dark:text-gray-400">
+                  Current Courses
+                </h4>
+                <p className="text-lg font-semibold dark:text-white">
+                  {profile.currentCourses}
+                </p>
+              </div>
             </div>
           </div>
         )}
