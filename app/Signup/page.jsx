@@ -30,8 +30,8 @@ const Signup = () => {
       alert("Signup successful! Redirecting to login...");
       router.push("/login");
     } catch (error) {
-      console.error("Signup error:", error.response?.dataerror.message);
-      alert("Signup failed: " + (error.response?.data?.message, 'Try again'));
+      console.error("Signup error:", error.response?.data.message);
+      alert("Signup failed: " + (error.response?.data?.message || 'Try again'));
     }
   };
 
@@ -39,7 +39,7 @@ const Signup = () => {
     <div className="flex items-center justify-center min-h-screen bg-gray-950 px-4">
       <form
         onSubmit={handleSubmit}
-        className="bg-white p-8 rounded-2xl shadow-lg w-full max-w-md border border-gray-200"
+        className="bg-white dark:bg-gray-800/80 p-8 rounded-2xl shadow-lg w-full max-w-md border border-gray-200"
       >
         <h2 className="text-3xl font-extrabold mb-6 text-center text-yellow-600">
           Create Your Account

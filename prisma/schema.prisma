@@ -10,13 +10,18 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(cuid())
-  name      String
-  email     String   @unique
-  password  String
-  role      Role     @default(USER)
-  createdAt DateTime @default(now())
+  id                String   @id @default(uuid())
+  name              String
+  email             String   @unique
+  password          String
+  role              Role     @default(USER)
+  createdAt         DateTime @default(now())
+
+
+  resetToken        String? 
+  resetTokenExpiry  DateTime?
 }
+
 
 enum Role {
   TRAINER
