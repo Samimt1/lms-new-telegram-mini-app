@@ -1,26 +1,20 @@
-// pages/api/notifications.ts
-import { NextApiRequest, NextApiResponse } from "next"
-import prisma from "@/app/lib/prisma"
-import { NotificationType } from "@prisma/client"
+import prisma from "@/app/lib/prisma.js"
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
-  if (req.method !== "POST") {
-    return res.status(405).json({ message: "Method not allowed" })
-  }
-
+// Create notification
+export async function POST(req) {
   try {
-    const { message, type, userId } = req.body
+    const { message, type, userId } = await req.json()
 
-    // Validate input
     if (!message || !type || !userId) {
-      return res.status(400).json({ message: "Missing required fields" })
+      return Response.json({ message: "Missing fields" }, { status: 400 })
     }
 
-    if (!Object.values(NotificationType).includes(type)) {
-      return res.status(400).json({ message: "Invalid notification type" })
+    const validTypes = ["SUCCESS", "REMINDER", "WARNING"]
+    if (!validTypes.includes(type)) {
+      return Response.json(
+        { message: "Invalid notification type", success: false },
+        { status: 400 }
+      )
     }
 
     const notification = await prisma.notification.create({
@@ -31,9 +25,42 @@ export default async function handler(
       },
     })
 
-    return res.status(201).json(notification)
+    return Response.json({
+      message: "Notification created",
+      notification,
+      success: true,
+    })
   } catch (error) {
-    console.error("Error creating notification:", error)
-    return res.status(500).json({ message: "Internal server error" })
+    console.error("Create Notification Error:", error)
+    return Response.json(
+      { message: "Server error", success: false },
+      { status: 500 }
+    )
+  }
+}
+
+// Get notifications for a user
+// @ route => /api/notifications?userId=123
+export async function GET(req) {
+  try {
+    const { searchParams } = new URL(req.url)
+    const userId = searchParams.get("userId")
+
+    if (!userId) {
+      return Response.json({ message: "Missing user ID" }, { status: 400 })
+    }
+
+    const notifications = await prisma.notification.findMany({
+      where: { userId },
+      orderBy: { createdAt: "desc" },
+    })
+
+    return Response.json({ notifications, success: true })
+  } catch (error) {
+    console.error("Error:", error)
+    return Response.json(
+      { message: "Server error", success: false },
+      { status: 500 }
+    )
   }
 }
