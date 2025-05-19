@@ -20,11 +20,23 @@ model User {
   resetToken       String?
   resetTokenExpiry DateTime?
   Notification     Notification[]
+  Certification    Certification[]
 }
 
 enum Role {
   TRAINER
   USER
+}
+
+model Certification {
+  id       String   @id @default(uuid())
+  title    String
+  user     User     @relation(fields: [userId], references: [id])
+  userId   String
+  // course   Course   @relation(fields: [courseId], references: [id])
+  courseId String
+  issuedAt DateTime @default(now())
+  certLink String?
 }
 
 model Notification {
