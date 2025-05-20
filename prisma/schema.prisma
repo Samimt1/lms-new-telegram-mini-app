@@ -101,9 +101,17 @@ model Favorite {
 }
 
 model Module {
-  id       String @id @default(uuid())
-  title    String
-  content  String
+  id          String   @id @default(uuid())
+  title       String
+  description String?
+  content     String // Could be markdown, HTML, video embed URL, etc.
+  order       Int // To define module order in the course
+  duration    Int? // Estimated duration in minutes
+  videoUrl    String? // Optional: URL to a lecture video
+  resources   String[] // Optional: links to external docs, slides, etc.
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
   course   Course @relation(fields: [courseId], references: [id])
   courseId String
 }
