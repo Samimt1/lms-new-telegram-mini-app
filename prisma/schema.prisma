@@ -27,11 +27,13 @@ model User {
   Quiz             Quiz[]
   trainerCourses Course[] @relation("TrainerCourses")
   adminCourses   Course[] @relation("AdminCourses")
+  Assesment       Assesment[]
 }
 
 enum Role {
   TRAINER
   USER
+  ADMIN
 }
 
 model Certification {
@@ -85,6 +87,7 @@ model Course {
   modules        Module[]
   quizzes        Quiz[]
   certifications Certification[]
+  Assesment       Assesment[]
 }
 
 
@@ -132,7 +135,7 @@ model Module {
 model Quiz {
   id        String     @id @default(uuid())
   title     String
-  course    Course     @relation(fields: [courseId], references: [id])
+  course    Course?     @relation(fields: [courseId], references: [id])
   courseId  String
   trainer   User       @relation(fields: [trainerId], references: [id])
   trainerId String
@@ -141,10 +144,34 @@ model Quiz {
 }
 
 model Question {
-  id      String   @id @default(uuid())
-  text    String
-  options String[]
-  correct String
-  quiz    Quiz     @relation(fields: [quizId], references: [id])
-  quizId  String
+  id           String     @id @default(uuid())
+  text         String
+  options      String[]
+  correct      String
+
+  // Relations (optional)
+  quiz         Quiz?      @relation(fields: [quizId], references: [id])
+  quizId       String?
+
+  assesment   Assesment? @relation(fields: [assesmentId], references: [id])
+  assesmentId String?
+}
+
+model Assesment {
+  id          String         @id @default(uuid())
+  title       String
+  description String
+  type        AssesmentType @default(PRE)
+  score       Int?          
+  course      Course         @relation(fields: [courseId], references: [id])
+  courseId    String
+  trainer     User           @relation(fields: [trainerId], references: [id])
+  trainerId   String
+  createdAt   DateTime       @default(now())
+  questions   Question[]     
+}
+
+enum AssesmentType {
+  PRE
+  POST
 }

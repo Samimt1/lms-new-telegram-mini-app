@@ -4,9 +4,10 @@ import TrainerNavbar from "@/app/Components/trainer/TrainerNavbar";
 import DashboardOverview from "@/app/Components/trainer/DashboardOverview";
 import StudentManagement from "@/app/Components/trainer/StudentManagement";
 import AssessmentGrading from "@/app/Components/trainer/AssessmentGrading";
+import Quizz from "@/app/Components/trainer/Quizz";
 import ProfileSection from "@/app/Components/trainer/ProfileSection";
 import CertificatesManagement from "@/app/Components/trainer/CertificatesManagement";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 export default function TrainerDashboard() {
   const [activeSection, setActiveSection] = useState("overview");
@@ -24,6 +25,11 @@ export default function TrainerDashboard() {
       id: "assessments",
       label: "Assessments",
       component: <AssessmentGrading />,
+    },
+    {
+      id: "quiz",
+      label: "Quiz",
+      component: <Quizz />,
     },
     {
       id: "certificates",

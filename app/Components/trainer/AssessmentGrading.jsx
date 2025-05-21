@@ -8,6 +8,7 @@ import {
   FiCalendar,
   FiTrash2,
 } from "react-icons/fi";
+import CreateAssesment from "./CreateAssesment";
 
 export default function AssessmentGrading() {
   const [activeTab, setActiveTab] = useState("create");
@@ -122,98 +123,7 @@ export default function AssessmentGrading() {
 
       {/* Tab Content */}
       <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
-        {activeTab === "create" && (
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                  Assessment Title
-                </label>
-                <input
-                  type="text"
-                  name="title"
-                  value={newAssignment.title}
-                  onChange={handleInputChange}
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                  required
-                  placeholder="Midterm Exam"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                  Course
-                </label>
-                <select
-                  name="course"
-                  value={newAssignment.course}
-                  onChange={handleInputChange}
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                  required
-                >
-                  <option value="">Select a course</option>
-                  <option value="Advanced JavaScript">
-                    Advanced JavaScript
-                  </option>
-                  <option value="React Fundamentals">React Fundamentals</option>
-                  <option value="Node.js Backend">Node.js Backend</option>
-                </select>
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                  Due Date
-                </label>
-                <input
-                  type="date"
-                  name="dueDate"
-                  value={newAssignment.dueDate}
-                  onChange={handleInputChange}
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                  required
-                />
-              </div>
-              <div className="md:col-span-2">
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                  Description
-                </label>
-                <textarea
-                  name="description"
-                  value={newAssignment.description}
-                  onChange={handleInputChange}
-                  rows={4}
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                  placeholder="Provide instructions for this assessment..."
-                ></textarea>
-              </div>
-            </div>
-
-            <div className="border-t border-gray-200 dark:border-gray-700 pt-4">
-              <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100 mb-4">
-                Questions
-              </h3>
-              <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg border border-gray-200 dark:border-gray-600">
-                <p className="text-sm text-gray-500 dark:text-gray-300">
-                  Question builder will be implemented here. You'll be able to
-                  add multiple choice, short answer, and coding questions.
-                </p>
-              </div>
-            </div>
-
-            <div className="flex justify-end space-x-3">
-              <button
-                type="button"
-                className="px-4 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-100 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors"
-              >
-                Save Draft
-              </button>
-              <button
-                type="submit"
-                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-              >
-                Publish Assessment
-              </button>
-            </div>
-          </form>
-        )}
+        {activeTab === "create" && <CreateAssesment />}
 
         {activeTab === "grade" && (
           <div className="overflow-x-auto">

@@ -33,7 +33,14 @@ export default function LoginPage() {
       const data = await res.json();
 
       if (res.ok) {
-        router.push(data.role === "trainer" ? "/trainer" : "/user");
+        console.log(data);
+        router.push(
+          data.role === "trainer"
+            ? "/trainer"
+            : data.role === "admin"
+            ? "/admin"
+            : "/user"
+        );
       } else {
         setError(data.message || "Invalid email or password");
       }

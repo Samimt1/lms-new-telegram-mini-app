@@ -81,16 +81,6 @@ export async function POST(request) {
 export async function GET() {
   try {
     const courses = await prisma.course.findMany({
-      include: {
-        quizzes: {
-          include: {
-            questions: true, //this line includes questions inside each quiz
-          },
-        },
-        modules: true,
-        certifications: true,
-        createdBy: true,
-      },
       orderBy: {
         createdAt: "desc",
       },
