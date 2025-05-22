@@ -15,6 +15,10 @@ import {
 } from "lucide-react"
 import toast from "react-hot-toast"
 import axios from "axios"
+import ReactMarkdown from "react-markdown"
+import rehypeRaw from "rehype-raw"
+import remarkGfm from "remark-gfm"
+import DOMPurify from "isomorphic-dompurify"
 
 export default function CoursePage() {
   const router = useRouter()
@@ -39,6 +43,7 @@ export default function CoursePage() {
 
         if (!response.ok) throw new Error(data.error || "Failed to load course")
 
+        console.log(data.course)
         setCourse(data.course)
       } catch (error) {
         toast.error(error.message)
@@ -136,21 +141,70 @@ export default function CoursePage() {
   }
 
   const renderModuleContent = () => {
+    const renderContent = () => {
+      switch (currentModule.contentType) {
+        case "video": {
+          const isYouTube =
+            currentModule.content.includes("youtube.com") ||
+            currentModule.content.includes("youtu.be")
+          const isVimeo = currentModule.content.includes("vimeo.com")
+          if (isYouTube || isVimeo) {
+            // YouTube/Vimeo iframe embed
+            const embedUrl = convertToEmbedUrl(currentModule.content)
+            return (
+              <iframe
+                src={embedUrl}
+                className="w-full h-[56vh]"
+                allow="autoplay; fullscreen"
+                allowFullScreen
+              />
+            )
+          } else {
+            // Direct video file (MP4/WebM/etc)
+            return (
+              <video className="w-full h-full" controls autoPlay>
+                <source src={currentModule.content} type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+            )
+          }
+        }
+
+        case "markdown":
+          return (
+            <div className="prose max-w-none">
+              <ReactMarkdown
+                remarkPlugins={[remarkGfm]}
+                rehypePlugins={[rehypeRaw]}
+              >
+                {` ${currentModule.content}`}
+              </ReactMarkdown>
+            </div>
+          )
+
+        case "html":
+          return (
+            <div
+              className="prose max-w-none"
+              dangerouslySetInnerHTML={{
+                __html: DOMPurify.sanitize(currentModule.content),
+              }}
+            />
+          )
+
+        case "text":
+        default:
+          return (
+            <div className="prose max-w-none whitespace-pre-wrap">
+              {currentModule.content}
+            </div>
+          )
+      }
+    }
+
     return (
       <div className="space-y-6">
-        {currentModule.contentType === "video" ? (
-          <div className="aspect-video bg-black rounded-lg overflow-hidden">
-            <iframe
-              src={currentModule.content}
-              className="w-full h-full"
-              allowFullScreen
-            />
-          </div>
-        ) : (
-          <div className="prose max-w-none whitespace-pre-wrap">
-            {currentModule.content}
-          </div>
-        )}
+        {renderContent()}
 
         <div>
           <h3 className="text-xl font-bold mb-2">{currentModule.title}</h3>
@@ -322,7 +376,8 @@ export default function CoursePage() {
                   {module.quizzes?.length > 0 && (
                     <div className="px-4 py-2 bg-gray-100 border-t border-gray-200 text-sm text-gray-600">
                       Includes {module.quizzes.length} quiz
-                      {module.quizzes.length > 1 ? "zes" : ""}
+                      {module.quizzes.length > 1 ? "zes" : ""} with{" "}
+                      {module.quizzes[0].questions.length} question
                     </div>
                   )}
                 </div>
@@ -408,4 +463,20 @@ export default function CoursePage() {
       </div>
     </div>
   )
+}
+
+const convertToEmbedUrl = (url) => {
+  if (url.includes("youtube.com")) {
+    const videoId = url.split("v=")[1]
+    return `https://www.youtube.com/embed/${videoId}`
+  }
+  if (url.includes("youtu.be")) {
+    const videoId = url.split("youtu.be/")[1]
+    return `https://www.youtube.com/embed/${videoId}`
+  }
+  if (url.includes("vimeo.com")) {
+    const videoId = url.split("vimeo.com/")[1]
+    return `https://player.vimeo.com/video/${videoId}`
+  }
+  return url
 }

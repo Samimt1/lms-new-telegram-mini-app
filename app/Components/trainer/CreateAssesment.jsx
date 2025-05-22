@@ -96,6 +96,8 @@ export default function AssessmentForm() {
 
       const result = await response.json()
       toast.success("Assessment created successfully!")
+
+      // Reset form or redirect
       setNewAssessment({
         title: "",
         courseId: "",
@@ -103,9 +105,8 @@ export default function AssessmentForm() {
         type: "PRE",
         dueDate: "",
         questions: [],
-        trainerId: "e7f26fce-52f1-4923-a53f-3cd86f54be42", //This comes from redux store
+        trainerId: "", //This comes from redux store
       })
-      // Reset form or redirect
     } catch (error) {
       console.error("Error:", error)
       toast.error("Failed to create assessment")

@@ -97,14 +97,12 @@ export default function UserDashboard() {
       } else {
         toast.error(result.message || "Failed to enroll")
       }
-
       router.push(`/user/assessment?courseId=${data.courseId}`)
     } catch (error) {
       console.error("Error enrolling:", error)
       toast.error("Failed to enroll. Please try again.")
     } finally {
       setIsEnrolling(false)
-      setShowEnrollModal(false)
       setSelectedCourse(null)
     }
   }
@@ -357,7 +355,7 @@ export default function UserDashboard() {
                     >
                       {isEnrolling ? (
                         <span className="flex items-center gap-4">
-                          <Loader className="animate-spin" size={16} />
+                          <Loader className="animate-spin" size={20} />
                           Enrolling...
                         </span>
                       ) : (

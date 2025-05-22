@@ -387,7 +387,6 @@ export default function CreateCoursePage() {
                       <option value="markdown">Markdown</option>
                       <option value="html">HTML</option>
                       <option value="video">Video</option>
-                      <option value="pdf">PDF</option>
                     </select>
                     {errors.modules?.[moduleIndex]?.contentType && (
                       <p className="mt-1 text-sm text-red-600">
