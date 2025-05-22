@@ -1,7 +1,7 @@
-"use client";
-import { useState, useEffect } from "react";
-import { Plus, Trash2, ChevronDown, ChevronUp } from "lucide-react";
-import toast from "react-hot-toast";
+"use client"
+import { useState, useEffect } from "react"
+import { Plus, Trash2, ChevronDown, ChevronUp } from "lucide-react"
+import toast from "react-hot-toast"
 
 export default function AssessmentForm() {
   // State for form data
@@ -12,50 +12,50 @@ export default function AssessmentForm() {
     type: "PRE",
     dueDate: "",
     questions: [],
-    trainerId: "e7f26fce-52f1-4923-a53f-3cd86f54be42", //This comes from redux store
-  });
+    trainerId: "afeab98c-f820-492e-9d90-d7433393bf64", //This comes from redux store
+  })
 
   // State for courses
-  const [courses, setCourses] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [courses, setCourses] = useState([])
+  const [loading, setLoading] = useState(true)
 
   // Fetch courses on mount
   useEffect(() => {
     const fetchCourses = async () => {
       try {
         const response = await fetch(
-          "/api/courses/trainer?trainerId=e7f26fce-52f1-4923-a53f-3cd86f54be42"
-        );
-        const data = await response.json();
-        setCourses(data);
+          "/api/courses/trainer?trainerId=afeab98c-f820-492e-9d90-d7433393bf64"
+        )
+        const data = await response.json()
+        setCourses(data)
       } catch (error) {
-        console.error("Failed to fetch courses", error);
+        console.error("Failed to fetch courses", error)
       } finally {
-        setLoading(false);
+        setLoading(false)
       }
-    };
-    fetchCourses();
-  }, []);
+    }
+    fetchCourses()
+  }, [])
 
   // Handle input changes
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setNewAssessment((prev) => ({ ...prev, [name]: value }));
-  };
+    const { name, value } = e.target
+    setNewAssessment((prev) => ({ ...prev, [name]: value }))
+  }
 
   // Handle question changes
   const handleQuestionChange = (index, field, value) => {
-    const updatedQuestions = [...newAssessment.questions];
-    updatedQuestions[index][field] = value;
-    setNewAssessment((prev) => ({ ...prev, questions: updatedQuestions }));
-  };
+    const updatedQuestions = [...newAssessment.questions]
+    updatedQuestions[index][field] = value
+    setNewAssessment((prev) => ({ ...prev, questions: updatedQuestions }))
+  }
 
   // Handle option changes
   const handleOptionChange = (qIndex, oIndex, value) => {
-    const updatedQuestions = [...newAssessment.questions];
-    updatedQuestions[qIndex].options[oIndex] = value;
-    setNewAssessment((prev) => ({ ...prev, questions: updatedQuestions }));
-  };
+    const updatedQuestions = [...newAssessment.questions]
+    updatedQuestions[qIndex].options[oIndex] = value
+    setNewAssessment((prev) => ({ ...prev, questions: updatedQuestions }))
+  }
 
   // Add new question
   const addQuestion = () => {
@@ -69,20 +69,20 @@ export default function AssessmentForm() {
           correct: "0", // Default to first option
         },
       ],
-    }));
-  };
+    }))
+  }
 
   // Remove question
   const removeQuestion = (index) => {
-    const updatedQuestions = [...newAssessment.questions];
-    updatedQuestions.splice(index, 1);
-    setNewAssessment((prev) => ({ ...prev, questions: updatedQuestions }));
-  };
+    const updatedQuestions = [...newAssessment.questions]
+    updatedQuestions.splice(index, 1)
+    setNewAssessment((prev) => ({ ...prev, questions: updatedQuestions }))
+  }
 
   // Handle form submission
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    console.log(newAssessment);
+    e.preventDefault()
+    console.log(newAssessment)
     try {
       const response = await fetch("/api/assessments", {
         method: "POST",
@@ -90,12 +90,12 @@ export default function AssessmentForm() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(newAssessment),
-      });
+      })
 
-      if (!response.ok) throw new Error("Failed to create assessment");
+      if (!response.ok) throw new Error("Failed to create assessment")
 
-      const result = await response.json();
-      toast.success("Assessment created successfully!");
+      const result = await response.json()
+      toast.success("Assessment created successfully!")
       setNewAssessment({
         title: "",
         courseId: "",
@@ -104,13 +104,13 @@ export default function AssessmentForm() {
         dueDate: "",
         questions: [],
         trainerId: "e7f26fce-52f1-4923-a53f-3cd86f54be42", //This comes from redux store
-      });
+      })
       // Reset form or redirect
     } catch (error) {
-      console.error("Error:", error);
-      toast.error("Failed to create assessment");
+      console.error("Error:", error)
+      toast.error("Failed to create assessment")
     }
-  };
+  }
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
@@ -317,5 +317,5 @@ export default function AssessmentForm() {
         </button>
       </div>
     </form>
-  );
+  )
 }

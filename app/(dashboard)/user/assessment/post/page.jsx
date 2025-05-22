@@ -13,6 +13,7 @@ import {
 } from "lucide-react"
 import toast from "react-hot-toast"
 import { useSearchParams } from "next/navigation"
+import axios from "axios"
 
 const PreAssessmentPage = () => {
   const router = useRouter()
@@ -33,18 +34,12 @@ const PreAssessmentPage = () => {
     const fetchData = async () => {
       try {
         setLoading(true)
-        const [assessmentRes, courseRes] = await Promise.all([
-          fetch(`/api/courses/${courseId}/assessment?type=PRE`),
-          fetch(`/api/courses/${courseId}`),
-        ])
+        const assessmentRes = await axios.get(
+          `/api/courses/${courseId}/assessment?type=POST`
+        )
 
-        const assessmentData = await assessmentRes.json()
-        const courseData = await courseRes.json()
-
-        setAssessment(assessmentData.assessment)
-        setCourse(courseData.course)
-        console.log("Assessment Data:", assessmentData)
-        console.log("Course Data:", courseData)
+        console.log("Assessment Data:", assessmentRes.data)
+        setAssessment(assessmentRes.data.assessment)
       } catch (error) {
         toast.error("Failed to load data")
       } finally {
@@ -108,7 +103,7 @@ const PreAssessmentPage = () => {
   }
 
   const handleCompleteAssessment = () => {
-    router.push(`/user/courses/${courseId}`)
+    router.push(`/user`)
   }
 
   if (loading) {
@@ -124,7 +119,7 @@ const PreAssessmentPage = () => {
     )
   }
 
-  if (!assessment || !course) {
+  if (!assessment) {
     return (
       <div className="flex items-center justify-center h-screen bg-gradient-to-br from-gray-50 to-gray-100">
         <p className="text-gray-600">No assessment found</p>
@@ -143,9 +138,8 @@ const PreAssessmentPage = () => {
             className="mb-8 p-6  "
           >
             <h1 className="text-3xl font-bold text-gray-800">
-              Pre-Assessment Results
+              Post Assessment Results
             </h1>
-            <p className="text-lg text-gray-600 mt-2">{course.title}</p>
           </motion.div>
 
           {/* Results Card */}
@@ -179,7 +173,7 @@ const PreAssessmentPage = () => {
                   : "Keep Practicing!"}
               </h2>
               <p className="text-gray-600 mb-6">
-                You scored {score}% on your pre-assessment
+                You scored {score}% on your post-assessment
               </p>
 
               <div className="space-y-4 mb-8">
@@ -230,7 +224,8 @@ const PreAssessmentPage = () => {
                 onClick={handleCompleteAssessment}
                 className="px-6 py-3 bg-gradient-to-r cursor-pointer from-blue-600 to-blue-500 text-white rounded-lg font-medium hover:shadow-md transition-all"
               >
-                Continue to Course Content
+                Finish Assessment
+                <ArrowLeft className="ml-2 h-5 w-5" />
               </motion.button>
             </div>
           </motion.div>
@@ -250,8 +245,7 @@ const PreAssessmentPage = () => {
           animate={{ opacity: 1, y: 0 }}
           className="mb-8 p-6 bg-white border-white/20"
         >
-          <h1 className="text-3xl font-bold text-gray-800">Pre-Assessment</h1>
-          <p className="text-lg text-gray-600 mt-2">{course.title}</p>
+          <h1 className="text-3xl font-bold text-gray-800">Post Assessment</h1>
           <p className="text-sm text-gray-500 mt-1">
             This assessment will help us understand your current knowledge level
           </p>

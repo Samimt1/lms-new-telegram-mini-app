@@ -1,21 +1,20 @@
-"use client";
-import { useState, useMemo } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import Link from "next/link";
-import { Search } from "lucide-react";
-import { deleteCourse } from "@/app/stateManager/features/courses/courseSlice";
-import Modal from "@/app/Components/Admin/Modal";
+"use client"
+import { useState, useMemo } from "react"
+import { useSelector, useDispatch } from "react-redux"
+import Link from "next/link"
+import { Search } from "lucide-react"
+import Modal from "@/app/Components/Admin/Modal"
 
 const Courses = () => {
-  const courses = useSelector((state) => state.courses.courses);
-  console.log(courses);
-  const dispatch = useDispatch();
+  const courses = useSelector((state) => state.courses.courses)
+  console.log(courses)
+  const dispatch = useDispatch()
 
   // Component state
-  const [searchTerm, setSearchTerm] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("all");
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [courseToDelete, setCourseToDelete] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("")
+  const [selectedCategory, setSelectedCategory] = useState("all")
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
+  const [courseToDelete, setCourseToDelete] = useState(null)
 
   // Memoized filtered courses for better performance
 
@@ -23,43 +22,42 @@ const Courses = () => {
     return courses.filter((course) => {
       const matchesSearch =
         course.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        course.description.toLowerCase().includes(searchTerm.toLowerCase());
+        course.description.toLowerCase().includes(searchTerm.toLowerCase())
       const matchesCategory =
-        selectedCategory === "all" || course.category === selectedCategory;
-      return matchesSearch && matchesCategory;
-    });
-  }, [courses, searchTerm, selectedCategory]);
-  console.log("Filtering courses...", filteredCourses);
+        selectedCategory === "all" || course.category === selectedCategory
+      return matchesSearch && matchesCategory
+    })
+  }, [courses, searchTerm, selectedCategory])
+  console.log("Filtering courses...", filteredCourses)
 
   // Get unique categories for dropdown
 
   const categories = useMemo(() => {
-    return [...new Set(courses.map((course) => course.category))];
-  }, [courses]);
+    return [...new Set(courses.map((course) => course.category))]
+  }, [courses])
 
   // Delete handlers
   const handleDeleteClick = (courseId) => {
-    setCourseToDelete(courseId);
-    setIsDeleteModalOpen(true);
-  };
+    setCourseToDelete(courseId)
+    setIsDeleteModalOpen(true)
+  }
 
   const handleConfirmDelete = () => {
     if (courseToDelete) {
-      dispatch(deleteCourse(courseToDelete));
-      setIsDeleteModalOpen(false);
-      setCourseToDelete(null);
+      setIsDeleteModalOpen(false)
+      setCourseToDelete(null)
     }
-  };
+  }
 
   const handleCancelDelete = () => {
-    setIsDeleteModalOpen(false);
-    setCourseToDelete(null);
-  };
+    setIsDeleteModalOpen(false)
+    setCourseToDelete(null)
+  }
 
   // Table column styles
   const thStyle =
-    "px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider";
-  const tdStyle = "px-6 py-4 whitespace-nowrap text-sm";
+    "px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+  const tdStyle = "px-6 py-4 whitespace-nowrap text-sm"
 
   return (
     <div className="space-y-6">
@@ -199,7 +197,7 @@ const Courses = () => {
                         </button>
                       </td>
                     </tr>
-                  );
+                  )
                 })}
               </tbody>
             </table>
@@ -219,7 +217,7 @@ const Courses = () => {
         confirmColor="red"
       />
     </div>
-  );
-};
+  )
+}
 
-export default Courses;
+export default Courses

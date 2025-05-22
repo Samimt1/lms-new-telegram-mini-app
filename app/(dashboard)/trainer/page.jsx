@@ -1,22 +1,21 @@
-"use client";
-import { useState, useEffect } from "react";
-import TrainerNavbar from "@/app/Components/trainer/TrainerNavbar";
-import DashboardOverview from "@/app/Components/trainer/DashboardOverview";
-import StudentManagement from "@/app/Components/trainer/StudentManagement";
-import AssessmentGrading from "@/app/Components/trainer/AssessmentGrading";
-import Quizz from "@/app/Components/trainer/Quizz";
-import ProfileSection from "@/app/Components/trainer/ProfileSection";
-import CertificatesManagement from "@/app/Components/trainer/CertificatesManagement";
-import { useRouter } from "next/navigation";
+"use client"
+import { useState, useEffect } from "react"
+import TrainerNavbar from "@/app/Components/trainer/TrainerNavbar"
+import DashboardOverview from "@/app/Components/trainer/DashboardOverview"
+import StudentManagement from "@/app/Components/trainer/StudentManagement"
+import AssessmentGrading from "@/app/Components/trainer/AssessmentGrading"
+import ProfileSection from "@/app/Components/trainer/ProfileSection"
+import CertificatesManagement from "@/app/Components/trainer/CertificatesManagement"
+import { useRouter } from "next/navigation"
 
 export default function TrainerDashboard() {
-  const [activeSection, setActiveSection] = useState("overview");
-  const router = useRouter();
+  const [activeSection, setActiveSection] = useState("overview")
+  const router = useRouter()
 
   const handleLogout = async () => {
-    await signOut({ redirect: false });
-    router.push("/login");
-  };
+    await signOut({ redirect: false })
+    router.push("/login")
+  }
 
   const sections = [
     { id: "overview", label: "Overview", component: <DashboardOverview /> },
@@ -27,17 +26,12 @@ export default function TrainerDashboard() {
       component: <AssessmentGrading />,
     },
     {
-      id: "quiz",
-      label: "Quiz",
-      component: <Quizz />,
-    },
-    {
       id: "certificates",
       label: "Certificates",
       component: <CertificatesManagement />,
     },
     { id: "profile", label: "Profile", component: <ProfileSection /> },
-  ];
+  ]
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -100,5 +94,5 @@ export default function TrainerDashboard() {
         </div>
       </div>
     </div>
-  );
+  )
 }

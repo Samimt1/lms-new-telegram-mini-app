@@ -1,11 +1,11 @@
-"use client";
+"use client"
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import axios from "axios";
+import { useState } from "react"
+import { useRouter } from "next/navigation"
+import axios from "axios"
 
 const Signup = () => {
-  const router = useRouter();
+  const router = useRouter()
 
   const [formData, setFormData] = useState({
     name: "",
@@ -13,27 +13,31 @@ const Signup = () => {
     password: "",
     confirmPassword: "",
     role: "user",
-  });
+  })
+  const [isLoading, setIsLoading] = useState(false)
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
 
     if (formData.password !== formData.confirmPassword) {
-      alert("Passwords do not match!");
-      return;
+      alert("Passwords do not match!")
+      return
     }
 
     try {
-      const res = await axios.post("/api/register", formData);
-      console.log("User registered:", res.data);
+      setIsLoading(true)
+      const res = await axios.post("/api/register", formData)
+      console.log("User registered:", res.data)
 
-      alert("Signup successful! Redirecting to login...");
-      router.push("/login");
+      alert("Signup successful! Redirecting to login...")
+      router.push("/login")
     } catch (error) {
-      console.error("Signup error:", error.response?.data.message);
-      alert("Signup failed: " + (error.response?.data?.message || 'Try again'));
+      console.error("Signup error:", error)
+      alert("Signup failed: " + (error.response?.data?.message || "Try again"))
+    } finally {
+      setIsLoading(false)
     }
-  };
+  }
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-950 px-4">
@@ -125,7 +129,7 @@ const Signup = () => {
           type="submit"
           className="w-full bg-yellow-500 hover:bg-yellow-600 text-white font-semibold p-3 rounded-md transition duration-300 ease-in-out"
         >
-          Sign Up
+          {isLoading ? "Signing up..." : "Sign Up"}
         </button>
 
         <div className="mt-4 text-center">
@@ -141,7 +145,7 @@ const Signup = () => {
         </div>
       </form>
     </div>
-  );
-};
+  )
+}
 
-export default Signup;
+export default Signup

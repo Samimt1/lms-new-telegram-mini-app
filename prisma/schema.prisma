@@ -21,13 +21,13 @@ model User {
   resetTokenExpiry DateTime?
   Notification     Notification[]
   Certification    Certification[]
-  
-  Enrollment       Enrollment[]
-  Favorite         Favorite[]
-  Quiz             Quiz[]
-  trainerCourses Course[] @relation("TrainerCourses")
-  adminCourses   Course[] @relation("AdminCourses")
-  Assesment       Assesment[]
+
+  Enrollment     Enrollment[]
+  Favorite       Favorite[]
+  Quiz           Quiz[]
+  trainerCourses Course[]     @relation("TrainerCourses")
+  adminCourses   Course[]     @relation("AdminCourses")
+  Assesment      Assesment[]
 }
 
 enum Role {
@@ -65,32 +65,30 @@ enum NotificationType {
 }
 
 model Course {
-  id          String   @id @default(uuid())
+  id          String  @id @default(uuid())
   title       String
   description String
   thumbnail   String?
   status      String
   category    String
+  isCompleted Boolean @default(false)
 
-  trainer     User     @relation("TrainerCourses", fields: [trainerId], references: [id])
-  trainerId   String
+  trainer   User   @relation("TrainerCourses", fields: [trainerId], references: [id])
+  trainerId String
 
-  createdBy   User?    @relation("AdminCourses", fields: [adminId], references: [id])
-  adminId     String?
+  createdBy User?   @relation("AdminCourses", fields: [adminId], references: [id])
+  adminId   String?
 
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   // Relations
   enrollments    Enrollment[]
   favorites      Favorite[]
   modules        Module[]
-  quizzes        Quiz[]
   certifications Certification[]
-  Assesment       Assesment[]
+  Assesment      Assesment[]
 }
-
-
 
 model Enrollment {
   id         String   @id @default(uuid())
@@ -116,27 +114,25 @@ model Module {
   id          String   @id @default(uuid())
   title       String
   description String?
-  
-  contentType String   // e.g., "markdown", "html", "video"
-  content     String   // Stores actual content or video URL depending on contentType
-
+  contentType String
+  content     String
   order       Int
   duration    Int?
-  resources   String[] // Optional: links to external docs, slides, etc.
-
+  resources   String[]
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
-  course      Course   @relation(fields: [courseId], references: [id])
-  courseId    String
-}
+  course   Course @relation(fields: [courseId], references: [id])
+  courseId String
 
+  quizzes Quiz[]
+}
 
 model Quiz {
   id        String     @id @default(uuid())
   title     String
-  course    Course?     @relation(fields: [courseId], references: [id])
-  courseId  String
+  module    Module     @relation(fields: [moduleId], references: [id])
+  moduleId  String
   trainer   User       @relation(fields: [trainerId], references: [id])
   trainerId String
   questions Question[]
@@ -144,31 +140,31 @@ model Quiz {
 }
 
 model Question {
-  id           String     @id @default(uuid())
-  text         String
-  options      String[]
-  correct      String
+  id      String   @id @default(uuid())
+  text    String
+  options String[]
+  correct String
 
   // Relations (optional)
-  quiz         Quiz?      @relation(fields: [quizId], references: [id])
-  quizId       String?
+  quiz   Quiz?   @relation(fields: [quizId], references: [id])
+  quizId String?
 
   assesment   Assesment? @relation(fields: [assesmentId], references: [id])
   assesmentId String?
 }
 
 model Assesment {
-  id          String         @id @default(uuid())
+  id          String        @id @default(uuid())
   title       String
   description String
   type        AssesmentType @default(PRE)
-  score       Int?          
-  course      Course         @relation(fields: [courseId], references: [id])
+  score       Int?
+  course      Course        @relation(fields: [courseId], references: [id])
   courseId    String
-  trainer     User           @relation(fields: [trainerId], references: [id])
+  trainer     User          @relation(fields: [trainerId], references: [id])
   trainerId   String
-  createdAt   DateTime       @default(now())
-  questions   Question[]     
+  createdAt   DateTime      @default(now())
+  questions   Question[]
 }
 
 enum AssesmentType {

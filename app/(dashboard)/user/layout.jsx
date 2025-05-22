@@ -1,4 +1,4 @@
-import Sidebar from "@/app/Components/Sidebar.jsx";
+import Sidebar from "@/app/Components/Sidebar.jsx"
 
 export default function UserLayout({ children }) {
   return (
@@ -8,5 +8,5 @@ export default function UserLayout({ children }) {
         <main className="max-w-7xl mx-auto">{children}</main>
       </div>
     </div>
-  );
+  )
 }
