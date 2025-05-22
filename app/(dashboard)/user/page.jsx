@@ -353,7 +353,7 @@ export default function UserDashboard() {
                         !isEnrolling
                           ? "bg-gradient-to-r from-purple-500 to-purple-600 "
                           : "bg-gradient-to-r from-purple-400 to-purple-500 cursor-not-allowed"
-                      } px-6 w-56 py-2 text-white rounded-lg shadow-md hover:shadow-lg transition-all cursor-pointer`}
+                      } px-12 py-2 text-white rounded-lg shadow-md hover:shadow-lg transition-all cursor-pointer`}
                     >
                       {isEnrolling ? (
                         <span className="flex items-center gap-4">
