@@ -3,7 +3,7 @@ import { useState, useMemo } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Link from "next/link";
 import { Search } from "lucide-react";
-import { deleteCourse } from "../../../../stateManager/features/courses/courseSlices";
+import { deleteCourse } from "@/stateManager/features/courses/courseSlice";
 import Modal from "@/components/Admin/Modal";
 
 const Courses = () => {

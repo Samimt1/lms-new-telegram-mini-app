@@ -6,6 +6,7 @@ import { useState } from "react";
 import {
   LogOut,
   Users,
+  User,
   BookOpen,
   FileText,
   BarChart2,
@@ -18,11 +19,12 @@ import {
 import Modal from "./Modal";
 import { cn } from "@/utility/utils";
 import { role } from "@/utility/data";
+import { Hanuman } from "next/font/google";
 const navItems = [
   {
     name: "Home",
     icon: HouseIcon,
-    path: "/admin",
+    path: "/admin/analytics",
     visible: ["admin", "trainer"],
   },
   { name: "Users", icon: Users, path: "/admin/users", visible: ["admin"] },
@@ -51,11 +53,18 @@ const navItems = [
     visible: ["admin", "trainer"],
   },
   {
+    name: "profile",
+    icon: User,
+    path: "/admin/profile",
+    visible: ["admin"],
+  },
+  {
     name: "Settings",
     icon: Settings,
     path: "/admin/settings",
     visible: ["admin"],
   },
+  
   {
     name: "Gamefication",
     icon: AwardIcon,
