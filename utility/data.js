@@ -99,3 +99,30 @@ export const performanceData = {
     },
   ],
 };
+export const notifications = [
+  {
+    id: 1,
+    title: "Assessment Due",
+    message: "React assessment is due tomorrow!",
+    read: false,
+    priority: "HIGH",
+    createdAt: new Date().toISOString(),
+  },
+  {
+    id: 2,
+    title: "Course Updated",
+    message: "The JavaScript course has new content.",
+    read: true,
+    priority: "MEDIUM",
+    createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24).toISOString(), // yesterday
+  },
+  {
+    id: 3,
+    title: "New Announcement",
+    message: "Don't miss this week's live session.",
+    read: false,
+    priority: "LOW",
+    createdAt: new Date(Date.now() - 1000 * 60 * 60).toISOString(), // 1 hour ago
+  },
+];
+
